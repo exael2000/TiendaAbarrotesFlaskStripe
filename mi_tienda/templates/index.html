@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda Abarrotes con Flask Stripe</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- SwiperJS CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+<body>
+  <header class="main-header">
+    <div class="banner-container">
+      <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="banner-img">
+      <nav class="main-nav">
+        <a href="{{ url_for('index') }}" class="nav-btn">Inicio</a>
+        <a href="{{ url_for('view_cart') }}" class="nav-btn">Carrito</a>
+        <a href="{{ url_for('ayuda') }}" class="nav-btn">Ayuda</a>
+      </nav>
+    </div>
+  </header>
+  <main class="main-content">
+    {% for proveedor, productos in products_by_supplier.items() %}
+      <section>
+        <h2>{{ proveedor }}</h2>
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            {% for producto in productos %}
+              <div class="swiper-slide">
+                <div class="producto-card">
+                  <a href="{{ url_for('producto_detalle', product_id=producto.id) }}">
+                    <img src="{{ url_for('static', filename='img/' ~ producto.image) }}" alt="{{ producto.name }}" class="producto-img">
+                    <h3>{{ producto.name }}</h3>
+                  </a>
+                  <p>${{ producto.price_display() }}</p>
+                  <form action="{{ url_for('route_add_to_cart') }}" method="POST" class="add-to-cart-form">
+                    <label for="cantidad-{{ producto.id }}" class="visually-hidden">Cantidad</label>
+                    <input type="hidden" name="product_id" value="{{ producto.id }}">
+                    <input type="number" id="cantidad-{{ producto.id }}" name="cantidad" value="1" min="1" max="10" required placeholder="Cantidad" title="Cantidad a agregar">
+                    <button type="submit">Agregar al carrito</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <!-- Swiper navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+    {% endfor %}
+  </main>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="footer-logo">
+      <div>
+        <p>&copy; {{ now.year }} Tienda Abarrotes. Todos los derechos reservados.</p>
+        <p>
+          Este sitio es un proyecto educativo inspirado en tiendas oficiales como 
+          <a href="https://www.bimbo.com.mx/" target="_blank" rel="noopener">Bimbo</a>, 
+          <a href="https://www.gamesa.com.mx/" target="_blank" rel="noopener">Gamesa</a> y 
+          <a href="https://www.sabritas.com.mx/" target="_blank" rel="noopener">Sabritas</a>.
+        </p>
+        <p>
+          Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
+          <a href="{{ url_for('ayuda') }}">Ayuda</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- SwiperJS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+  document.querySelectorAll('.swiper').forEach(function(swiperEl) {
+    new Swiper(swiperEl, {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      navigation: {
+        nextEl: swiperEl.querySelector('.swiper-button-next'),
+        prevEl: swiperEl.querySelector('.swiper-button-prev'),
+      },
+      pagination: {
+        el: swiperEl.querySelector('.swiper-pagination'),
+        clickable: true,
+      },
+      breakpoints: {
+        800: { slidesPerView: 3 },
+        500: { slidesPerView: 1 }
+      }
+    });
+  });
+  </script>
+</body>
+</html>

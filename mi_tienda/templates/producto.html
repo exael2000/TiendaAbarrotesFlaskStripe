@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ producto.name }} | Tienda Abarrotes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_producto.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="{{ url_for('index') }}">Inicio</a>
+      <a href="{{ url_for('view_cart') }}">Carrito</a>
+      <a href="{{ url_for('ayuda') }}">Ayuda</a>
+    </nav>
+  </header>
+  <main>
+    <section class="producto-detalle">
+      <div class="producto-imagen">
+        <img src="{{ url_for('static', filename='img/' ~ producto.image) }}" alt="{{ producto.name }}" tabindex="0">
+      </div>
+      <div class="producto-info">
+        <h1>{{ producto.name }}</h1>
+        <p class="producto-brand">{{ producto.brand }} | {{ producto.weight }}</p>
+        <p class="producto-price">${{ producto.price_display() }}</p>
+        <p class="producto-stock">
+          {% if producto.stock > 0 %}
+            <span class="stock-ok">Disponible: {{ producto.stock }}</span>
+          {% else %}
+            <span class="stock-no">Sin stock</span>
+          {% endif %}
+        </p>
+        <form action="{{ url_for('route_add_to_cart') }}" method="POST" class="add-to-cart-form">
+          <input type="hidden" name="product_id" value="{{ producto.id }}">
+          <label for="cantidad-input" class="sr-only">Cantidad</label>
+          <input 
+            type="number" 
+            id="cantidad-input" 
+            name="cantidad" 
+            value="1" 
+            min="1" 
+            max="{{ producto.stock }}" 
+            required 
+            placeholder="Cantidad"
+            title="Cantidad a agregar"
+          >
+          <button 
+            type="submit" 
+            {% if producto.stock == 0 %}disabled{% endif %}
+            title="Agregar al carrito"
+          >Agregar al carrito</button>
+        </form>
+        <!-- Pestañas de detalles -->
+        <div class="producto-tabs">
+          <button type="button" class="tab-btn active" data-tab="descripcion">Descripción</button>
+          <button type="button" class="tab-btn" data-tab="ingredientes">Ingredientes</button>
+          <button type="button" class="tab-btn" data-tab="alergenos">Alérgenos</button>
+          <button type="button" class="tab-btn" data-tab="nutricional">Info Nutricional</button>
+        </div>
+        <div class="tab-content" id="descripcion">
+          <h2>Descripción</h2>
+          <p>{{ producto.description }}</p>
+        </div>
+        <div class="tab-content" id="ingredientes" style="display:none;">
+          <h2>Ingredientes</h2>
+          <p>{{ producto.ingredients }}</p>
+        </div>
+        <div class="tab-content" id="alergenos" style="display:none;">
+          <h2>Alérgenos</h2>
+          <p>{{ producto.allergens }}</p>
+        </div>
+        <div class="tab-content" id="nutricional" style="display:none;">
+          <h2>Información nutricional</h2>
+          <p>{{ producto.nutritional_info }}</p>
+        </div>
+      </div>
+    </section>
+    <a href="{{ url_for('index') }}" class="btn-volver">Volver a la tienda</a>
+  </main>
+  <!-- Modal para imagen ampliada -->
+  <div id="modal-img" class="modal-img" style="display:none;" aria-modal="true" role="dialog">
+    <span class="close-modal" id="close-modal" tabindex="0" aria-label="Cerrar imagen ampliada">&times;</span>
+    <img id="modal-product-img" src="{{ url_for('static', filename='img/' ~ producto.image) }}" alt="{{ producto.name }}">
+  </div>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="footer-logo">
+      <div>
+        <p>&copy; {{ now.year }} Tienda Abarrotes. Todos los derechos reservados.</p>
+        <p>
+          Este sitio es un proyecto educativo inspirado en tiendas oficiales como 
+          <a href="https://www.bimbo.com.mx/" target="_blank" rel="noopener">Bimbo</a>, 
+          <a href="https://www.gamesa.com.mx/" target="_blank" rel="noopener">Gamesa</a> y 
+          <a href="https://www.sabritas.com.mx/" target="_blank" rel="noopener">Sabritas</a>.
+        </p>
+        <p>
+          Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
+          <a href="{{ url_for('ayuda') }}">Ayuda</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tabs JS
+      document.querySelectorAll('.tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('.tab-content').forEach(tc => tc.style.display = 'none');
+          var tab = document.getElementById(btn.dataset.tab);
+          if(tab) tab.style.display = 'block';
+        });
+      });
+
+      // Modal imagen ampliada
+      var img = document.querySelector('.producto-imagen img');
+      var modal = document.getElementById('modal-img');
+      var closeBtn = document.getElementById('close-modal');
+      if(img && modal && closeBtn) {
+        img.addEventListener('click', function() {
+          modal.style.display = 'flex';
+        });
+        closeBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+        // Cerrar modal al hacer click fuera de la imagen
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+        // Accesibilidad: cerrar con tecla ESC
+        document.addEventListener('keydown', function(e) {
+          if (modal.style.display === 'flex' && (e.key === 'Escape' || e.key === 'Esc')) {
+            modal.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

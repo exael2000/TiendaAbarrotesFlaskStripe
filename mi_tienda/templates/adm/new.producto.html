@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuevo producto</title>
+</head>
+<body>
+  <h1>Agregar nuevo producto</h1>
+  <form method="POST">
+    <label>Nombre: <input type="text" name="name" required></label><br>
+    <label>Proveedor: <input type="text" name="supplier" required></label><br>
+    <label>Descripción: <textarea name="description"></textarea></label><br>
+    <label>Precio: <input type="number" name="price" step="0.01" required></label><br>
+    <label>Imagen (ruta relativa): <input type="text" name="image"></label><br>
+    <button type="submit">Guardar</button>
+  </form>
+  <a href="{{ url_for('admin_index') }}">Volver</a>
+</body>
+</html>

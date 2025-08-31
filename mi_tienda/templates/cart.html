@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de compras</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_cart.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Carrito de compras</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Inicio</a>
+      <a href="{{ url_for('ayuda') }}">Ayuda</a>
+    </nav>
+  </header>
+  <main>
+    {% if items %}
+      <form id="cart-form" action="{{ url_for('route_update_cart') }}" method="POST">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+            <tr id="row-{{ item.product.id }}">
+              <td>
+                <img src="{{ url_for('static', filename='img/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
+                {{ item.product.name }}
+              </td>
+              <td>${{ "%.2f"|format(item.product.price_cents / 100) }}</td>
+              <td>
+                <label for="qty-{{ item.product.id }}" class="sr-only">Cantidad de {{ item.product.name }}</label>
+                <input type="number" id="qty-{{ item.product.id }}" name="quantity[{{ item.product.id }}]" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="cart-qty" data-product-id="{{ item.product.id }}">
+              </td>
+              <td id="subtotal-{{ item.product.id }}">${{ "%.2f"|format(item.subtotal / 100) }}</td>
+              <td>
+                <button type="button" class="remove-btn" data-product-id="{{ item.product.id }}" title="Eliminar producto">Eliminar</button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="cart-total">
+          <strong>Total: ${{ "%.2f"|format(total / 100) }}</strong>
+        </div>
+        <div class="cart-actions">
+          <a href="{{ url_for('index') }}" class="btn">Seguir comprando</a>
+          <form action="{{ url_for('create_checkout_session') }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn checkout-btn">Ir a pagar</button>
+          </form>
+        </div>
+      </form>
+    {% else %}
+      <p class="empty-cart" style="display:none;">Tu carrito está vacío.</p>
+      <a href="{{ url_for('index') }}" class="btn">Ver productos</a>
+    {% endif %}
+  </main>
+  <script>
+document.querySelectorAll('.cart-qty').forEach(function(input) {
+  input.addEventListener('change', function() {
+    const productId = this.dataset.productId;
+    const quantity = this.value;
+    fetch("{{ url_for('route_update_cart') }}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: JSON.stringify({ product_id: productId, quantity: quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.querySelector(`#subtotal-${productId}`).textContent = `$${data.subtotal}`;
+        document.querySelector('.cart-total strong').textContent = `Total: $${data.total}`;
+      } else {
+        alert(data.message || "Error al actualizar el carrito.");
+      }
+    });
+  });
+});
+
+document.querySelectorAll('.remove-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const productId = this.dataset.productId;
+    fetch("{{ url_for('route_update_cart') }}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: JSON.stringify({ product_id: productId, remove: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById(`row-${productId}`).remove();
+        document.querySelector('.cart-total strong').textContent = `Total: $${data.total}`;
+        // Si el carrito está vacío, muestra el mensaje
+        if (data.total == "0.00") {
+          document.querySelector('.cart-table').style.display = "none";
+          document.querySelector('.cart-total').style.display = "none";
+          document.querySelector('.cart-actions').style.display = "none";
+          document.querySelector('.empty-cart').style.display = "block";
+        }
+      } else {
+        alert(data.message || "Error al eliminar el producto.");
+      }
+    });
+  });
+});
+</script>
+<footer class="main-footer">
+  <div class="footer-content">
+    <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="footer-logo">
+    <div>
+      <p>&copy; {{ now.year }} Tienda Abarrotes. Todos los derechos reservados.</p>
+      <p>
+        Este sitio es un proyecto educativo inspirado en tiendas oficiales como 
+        <a href="https://www.bimbo.com.mx/" target="_blank" rel="noopener">Bimbo</a>, 
+        <a href="https://www.gamesa.com.mx/" target="_blank" rel="noopener">Gamesa</a> y 
+        <a href="https://www.sabritas.com.mx/" target="_blank" rel="noopener">Sabritas</a>.
+      </p>
+      <p>
+        Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
+        <a href="{{ url_for('ayuda') }}">Ayuda</a>
+      </p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

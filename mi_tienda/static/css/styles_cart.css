@@ -1,0 +1,254 @@
+/* Layout base para footer fijo */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6f8fa;
+  color: #222;
+}
+
+/* El main ocupa el espacio disponible y se ve igual que en index.html */
+main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem 2rem 1rem;
+  /* NO display: flex ni flex-direction aquí */
+}
+
+/* El contenedor de la tabla ocupa todo el alto disponible */
+.cart-table {
+  flex: 1 1 auto;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(39, 174, 96, 0.08);
+  overflow: hidden;
+  min-height: 300px; /* puedes ajustar este valor */
+}
+
+header {
+  background: #27ae60;
+  color: #fff;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 1.1rem;
+  background: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+nav a:hover {
+  background: #145a32;
+}
+
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem 2rem 1rem;
+  flex: 1;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(39, 174, 96, 0.08);
+  overflow: hidden;
+}
+
+.cart-table th, .cart-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-table th {
+  background: #27ae60;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.cart-table td {
+  font-size: 1rem;
+}
+
+.cart-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+  background: #f6f8fa;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.08);
+}
+
+input[type="number"], .cart-qty {
+  width: 60px;
+  padding: 0.3rem;
+  font-size: 1rem;
+  text-align: center;
+  border: 1px solid #27ae60;
+  border-radius: 6px;
+  background: #f7f7f7;
+}
+
+.remove-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+}
+
+.cart-total {
+  margin: 2rem 0 1rem 0;
+  font-size: 1.3rem;
+  color: #27ae60;
+  text-align: right;
+}
+
+.cart-actions {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.btn, .checkout-btn {
+  background: linear-gradient(90deg, #27ae60 70%, #219150 100%);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.10);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover, .checkout-btn:hover {
+  background: linear-gradient(90deg, #145a32 70%, #27ae60 100%);
+  transform: scale(1.07);
+}
+
+.empty-cart {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin: 3rem 0;
+}
+
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Pie de página */
+.main-footer {
+  background: #222;
+  color: #fff;
+  padding: 2rem 0 1rem 0;
+  margin-top: 3rem;
+  font-size: 1rem;
+}
+
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-right: 1.5rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.10);
+}
+
+.main-footer a {
+  color: #27ae60;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.main-footer a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  main {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  .cart-table th, .cart-table td {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .cart-img {
+    width: 40px;
+    height: 40px;
+  }
+  .cart-total {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .footer-logo {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+}
