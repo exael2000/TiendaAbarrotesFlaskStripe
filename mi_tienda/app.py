@@ -251,6 +251,7 @@ def create_checkout_session():
         mode='payment',
         success_url=url_for('success', _external=True),
         cancel_url=url_for('view_cart', _external=True),
+        metadata={'cart_items': json.dumps(cart)}
     )
     return redirect(session_obj.url, code=303)
 
@@ -318,6 +319,17 @@ def webhook_received():
             db.session.add(new_order)
             db.session.commit()
             app.logger.info("Orden creada desde webhook: %s", new_order.id)
+
+        # Descontar stock de productos comprados
+        cart_items = session_obj.get('metadata', {}).get('cart_items')
+        if cart_items:
+            cart = json.loads(cart_items)
+            for pid, qty in cart.items():
+                product = Product.query.get(int(pid))
+                if product:
+                    product.stock = max(product.stock - int(qty), 0)
+            db.session.commit()
+            app.logger.info("Stock actualizado por compra Stripe.")
 
         # Limpiar carrito del comprador (sesión actual)
         clear_cart()

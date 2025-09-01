@@ -52,10 +52,11 @@
         </div>
         <div class="cart-actions">
           <a href="{{ url_for('index') }}" class="btn">Seguir comprando</a>
-          <form action="{{ url_for('create_checkout_session') }}" method="POST" style="display:inline;">
-            <button type="submit" class="btn checkout-btn">Ir a pagar</button>
-          </form>
         </div>
+      </form>
+      <!-- Formulario de Stripe fuera del form principal -->
+      <form action="{{ url_for('create_checkout_session') }}" method="POST" style="text-align:right; margin-top:1rem;">
+        <button type="submit" class="btn checkout-btn">Pagar con Stripe</button>
       </form>
     {% else %}
       <p class="empty-cart" style="display:none;">Tu carrito está vacío.</p>
