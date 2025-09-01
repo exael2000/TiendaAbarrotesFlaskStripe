@@ -74,8 +74,8 @@
   <script>
   document.querySelectorAll('.swiper').forEach(function(swiperEl) {
     new Swiper(swiperEl, {
-      slidesPerView: 3,
-      spaceBetween: 30,
+      slidesPerView: 'auto',
+      spaceBetween: 20,
       navigation: {
         nextEl: swiperEl.querySelector('.swiper-button-next'),
         prevEl: swiperEl.querySelector('.swiper-button-prev'),
@@ -85,8 +85,9 @@
         clickable: true,
       },
       breakpoints: {
-        800: { slidesPerView: 3 },
-        500: { slidesPerView: 1 }
+        1200: { slidesPerView: 'auto', spaceBetween: 24 },
+        800: { slidesPerView: 'auto', spaceBetween: 18 },
+        500: { slidesPerView: 1, spaceBetween: 8 }
       }
     });
   });
