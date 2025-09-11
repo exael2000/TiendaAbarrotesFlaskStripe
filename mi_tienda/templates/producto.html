@@ -11,13 +11,13 @@
     <nav>
       <a href="{{ url_for('index') }}">Inicio</a>
       <a href="{{ url_for('view_cart') }}">Carrito</a>
-      <a href="{{ url_for('ayuda') }}">Ayuda</a>
+      <a href="{{ url_for('contacto') }}">Contacto</a>
     </nav>
   </header>
   <main>
     <section class="producto-detalle">
       <div class="producto-imagen">
-        <img src="{{ url_for('static', filename='img/' ~ producto.image) }}" alt="{{ producto.name }}" tabindex="0">
+        <img src="{{ url_for('static', filename='img/' ~ producto.suplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" tabindex="0">
       </div>
       <div class="producto-info">
         <h1>{{ producto.name }}</h1>
@@ -80,7 +80,7 @@
   <!-- Modal para imagen ampliada -->
   <div id="modal-img" class="modal-img" style="display:none;" aria-modal="true" role="dialog">
     <span class="close-modal" id="close-modal" tabindex="0" aria-label="Cerrar imagen ampliada">&times;</span>
-    <img id="modal-product-img" src="{{ url_for('static', filename='img/' ~ producto.image) }}" alt="{{ producto.name }}">
+    <img id="modal-product-img" src="{{ url_for('static', filename='img/' ~ producto.suplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}">
   </div>
   <footer class="main-footer">
     <div class="footer-content">
@@ -95,7 +95,7 @@
         </p>
         <p>
           Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
-          <a href="{{ url_for('ayuda') }}">Ayuda</a>
+          <a href="{{ url_for('contacto') }}">Contacto</a>
         </p>
       </div>
     </div>
