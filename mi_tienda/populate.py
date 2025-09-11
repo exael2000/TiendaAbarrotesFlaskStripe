@@ -2,9 +2,9 @@ from app import app, db, Product
 
 def populate_products():
     productos = [
-        # Bimbo
+        # bimbo
         {
-            "supplier": "Bimbo",
+            "supplier": "bimbo",
             "name": "Mantecadas Vainilla",
             "description": "Deliciosas mantecadas sabor vainilla, suaves y esponjosas.",
             "price_cents": 3500,
@@ -17,7 +17,7 @@ def populate_products():
             "stock": 20
         },
         {
-            "supplier": "Bimbo",
+            "supplier": "bimbo",
             "name": "Pan Blanco Grande",
             "description": "Pan blanco suave, ideal para sándwiches y tostadas.",
             "price_cents": 2800,
@@ -30,7 +30,7 @@ def populate_products():
             "stock": 30
         },
         {
-            "supplier": "Bimbo",
+            "supplier": "bimbo",
             "name": "Donas Azucaradas",
             "description": "Donas cubiertas de azúcar, perfectas para acompañar tu café.",
             "price_cents": 3200,
@@ -43,7 +43,7 @@ def populate_products():
             "stock": 15
         },
         {
-            "supplier": "Bimbo",
+            "supplier": "bimbo",
             "name": "Roles Canela",
             "description": "Roles de canela con glaseado dulce.",
             "price_cents": 4000,
@@ -56,7 +56,7 @@ def populate_products():
             "stock": 10
         },
         {
-            "supplier": "Bimbo",
+            "supplier": "bimbo",
             "name": "Pan Integral",
             "description": "Pan integral saludable, fuente de fibra.",
             "price_cents": 3000,
@@ -68,9 +68,9 @@ def populate_products():
             "nutritional_info": "Energía: 220kcal por porción. Fibra: 5g.",
             "stock": 25
         },
-        # Gamesa
+        # gamesa
         {
-            "supplier": "Gamesa",
+            "supplier": "gamesa",
             "name": "Galletas Marías",
             "description": "Galletas clásicas Marías, perfectas para acompañar leche o café.",
             "price_cents": 1500,
@@ -83,7 +83,7 @@ def populate_products():
             "stock": 40
         },
         {
-            "supplier": "Gamesa",
+            "supplier": "gamesa",
             "name": "Galletas Emperador Chocolate",
             "description": "Galletas rellenas de chocolate, crujientes y deliciosas.",
             "price_cents": 2200,
@@ -96,7 +96,7 @@ def populate_products():
             "stock": 35
         },
         {
-            "supplier": "Gamesa",
+            "supplier": "gamesa",
             "name": "Galletas Arcoiris",
             "description": "Galletas con chispas de colores, divertidas y sabrosas.",
             "price_cents": 2000,
@@ -109,7 +109,7 @@ def populate_products():
             "stock": 20
         },
         {
-            "supplier": "Gamesa",
+            "supplier": "gamesa",
             "name": "Galletas Saladitas",
             "description": "Galletas saladas crujientes, ideales para botanas.",
             "price_cents": 1800,
@@ -122,7 +122,7 @@ def populate_products():
             "stock": 25
         },
         {
-            "supplier": "Gamesa",
+            "supplier": "gamesa",
             "name": "Galletas Chokis",
             "description": "Galletas con chispas de chocolate, favoritas de todos.",
             "price_cents": 2500,
@@ -134,9 +134,9 @@ def populate_products():
             "nutritional_info": "Energía: 160kcal por porción. Azúcares: 12g.",
             "stock": 30
         },
-        # Sabritas
+        # sabritas
         {
-            "supplier": "Sabritas",
+            "supplier": "sabritas",
             "name": "Papas Clásicas",
             "description": "Papas fritas clásicas, crujientes y saladas.",
             "price_cents": 1800,
@@ -149,7 +149,7 @@ def populate_products():
             "stock": 50
         },
         {
-            "supplier": "Sabritas",
+            "supplier": "sabritas",
             "name": "Cheetos",
             "description": "Botana de maíz con queso, sabor intenso.",
             "price_cents": 1700,
@@ -162,7 +162,7 @@ def populate_products():
             "stock": 45
         },
         {
-            "supplier": "Sabritas",
+            "supplier": "sabritas",
             "name": "Doritos Nacho",
             "description": "Totopos de maíz sabor nacho, perfectos para compartir.",
             "price_cents": 1900,
@@ -175,7 +175,7 @@ def populate_products():
             "stock": 40
         },
         {
-            "supplier": "Sabritas",
+            "supplier": "sabritas",
             "name": "Ruffles Queso",
             "description": "Papas onduladas sabor queso, extra crujientes.",
             "price_cents": 2100,
@@ -188,7 +188,7 @@ def populate_products():
             "stock": 35
         },
         {
-            "supplier": "Sabritas",
+            "supplier": "sabritas",
             "name": "Papas Adobadas",
             "description": "Papas fritas sabor adobadas, con especias mexicanas.",
             "price_cents": 2000,
