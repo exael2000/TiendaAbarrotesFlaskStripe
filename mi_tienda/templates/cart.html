@@ -31,7 +31,7 @@
             {% for item in items %}
             <tr id="row-{{ item.product.id }}">
               <td>
-                <img src="{{ url_for('static', filename='img/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
+                <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
                 {{ item.product.name }}
               </td>
               <td>${{ "%.2f"|format(item.product.price_cents / 100) }}</td>

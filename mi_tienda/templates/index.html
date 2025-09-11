@@ -29,7 +29,7 @@
               <div class="swiper-slide">
                 <div class="producto-card">
                   <a href="{{ url_for('producto_detalle', product_id=producto.id) }}">
-                    <img src="{{ url_for('static', filename='img/' ~ suplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" class="producto-img">
+                    <img src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" class="producto-img">
                     <h3>{{ producto.name }}</h3>
                   </a>
                   <p>${{ producto.price_display() }}</p>
