@@ -5,6 +5,8 @@
     <title>Contáctenos | Mi Tienda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_contacto.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <header>
@@ -16,33 +18,48 @@
         </nav>
     </header>
     <main>
+      <div class="contact-container">
         <section>
-            <h2>Información de la tienda</h2>
-            <p>Dirección: Calle Principal #123, Ciudad, País</p>
-            <p>Teléfono: +52 123 456 7890</p>
-            <p>Email: soporte@mitienda.com</p>
-            <p>Horario: Lunes a Sábado, 9:00am - 7:00pm</p>
+          <div class="contact-card">
+            <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <div class="contact-info">
+              <strong>Dirección:</strong> Calle Principal #123, Ciudad, País
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+            <div class="contact-info">
+              <strong>Teléfono:</strong> +52 123 456 7890
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+            <div class="contact-info">
+              <strong>Email:</strong> <a href="mailto:soporte@mitienda.com">soporte@mitienda.com</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon"><i class="fas fa-clock"></i></span>
+            <div class="contact-info">
+              <strong>Horario:</strong> Lunes a Sábado, 9:00am - 7:00pm
+            </div>
+          </div>
         </section>
         <section>
-            <h2>Verificación de datos</h2>
-            <p>¿Necesitas verificar el estado de tu pedido o tus datos? Escríbenos por WhatsApp o correo y te ayudamos.</p>
-            <a href="mailto:soporte@mitienda.com" class="btn">Verificar por Email</a>
-        </section>
-        <section>
-            <h2>Ayuda y soporte</h2>
-            <p>¿Tienes algún problema con tu compra, pago o acceso? Consulta nuestra <a href="{{ url_for('contacto') }}">página de contacto</a> o contáctanos directamente.</p>
+          <div class="contact-form">
+            <h2>Consultar pedido</h2>
             <form method="POST" action="{{ url_for('consultar_pedido') }}">
-                <label for="email">Tu email:</label><br>
-                <input type="email" id="email" name="email" required><br>
-                <label for="pedido">Número de pedido:</label><br>
-                <input type="text" id="pedido" name="pedido" required><br>
-                <button type="submit" class="btn">Consultar pedido</button>
+              <label for="email"><i class="fas fa-user"></i> Tu email:</label>
+              <input type="email" id="email" name="email" required>
+              <label for="pedido"><i class="fas fa-receipt"></i> Número de pedido:</label>
+              <input type="text" id="pedido" name="pedido" required>
+              <button type="submit"><i class="fas fa-search"></i> Consultar pedido</button>
             </form>
+          </div>
         </section>
-        <!-- Preguntas frecuentes -->
         <section>
-          <h2>Preguntas frecuentes</h2>
           <div class="faq-list">
+            <h2>Preguntas frecuentes</h2>
             <div class="faq-item">
               <button class="faq-question" type="button" onclick="toggleFaq(this)">
                 ¿Cómo puedo consultar el estado de mi pedido?
@@ -70,6 +87,7 @@
             <!-- Agrega más preguntas aquí -->
           </div>
         </section>
+      </div>
     </main>
     <footer class="main-footer">
         <div class="footer-content">
