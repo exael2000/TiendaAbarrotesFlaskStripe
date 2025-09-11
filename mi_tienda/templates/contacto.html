@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contáctenos | Mi Tienda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Contáctenos</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Inicio</a>
+            <a href="{{ url_for('view_cart') }}">Carrito</a>
+            <a href="{{ url_for('contacto') }}">Contacto</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Información de la tienda</h2>
+            <p>Dirección: Calle Principal #123, Ciudad, País</p>
+            <p>Teléfono: +52 123 456 7890</p>
+            <p>Email: soporte@mitienda.com</p>
+            <p>Horario: Lunes a Sábado, 9:00am - 7:00pm</p>
+        </section>
+        <section>
+            <h2>Verificación de datos</h2>
+            <p>¿Necesitas verificar el estado de tu pedido o tus datos? Escríbenos por WhatsApp o correo y te ayudamos.</p>
+            <a href="mailto:soporte@mitienda.com" class="btn">Verificar por Email</a>
+        </section>
+        <section>
+            <h2>Ayuda y soporte</h2>
+            <p>¿Tienes algún problema con tu compra, pago o acceso? Consulta nuestra <a href="{{ url_for('contacto') }}">página de contacto</a> o contáctanos directamente.</p>
+            <form method="POST" action="{{ url_for('consultar_pedido') }}">
+                <label for="email">Tu email:</label><br>
+                <input type="email" id="email" name="email" required><br>
+                <label for="pedido">Número de pedido:</label><br>
+                <input type="text" id="pedido" name="pedido" required><br>
+                <button type="submit" class="btn">Consultar pedido</button>
+            </form>
+        </section>
+        <!-- Preguntas frecuentes -->
+        <section>
+          <h2>Preguntas frecuentes</h2>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                ¿Cómo puedo consultar el estado de mi pedido?
+              </button>
+              <div class="faq-answer" style="display:none;">
+                Puedes consultar el estado de tu pedido usando el formulario de esta página. Ingresa tu email y número de pedido y recibirás la información por correo.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                ¿Qué hago si tengo problemas con el pago?
+              </button>
+              <div class="faq-answer" style="display:none;">
+                Si tienes problemas con el pago, contáctanos usando el formulario de soporte o escribe a <a href="mailto:soporte@mitienda.com">soporte@mitienda.com</a>.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                ¿Cómo puedo modificar o cancelar mi pedido?
+              </button>
+              <div class="faq-answer" style="display:none;">
+                Para modificar o cancelar tu pedido, comunícate con nosotros lo antes posible por email o WhatsApp. Indica tu número de pedido y los cambios que deseas realizar.
+              </div>
+            </div>
+            <!-- Agrega más preguntas aquí -->
+          </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <span>&copy; {{ now.year }} Mi Tienda. Todos los derechos reservados.</span>
+        </div>
+    </footer>
+    <script>
+    function toggleFaq(btn) {
+      var answer = btn.nextElementSibling;
+      answer.style.display = (answer.style.display === "none" || answer.style.display === "") ? "block" : "none";
+    }
+    </script>
+</body>
+</html>

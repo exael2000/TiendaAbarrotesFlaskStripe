@@ -2,6 +2,8 @@ import os
 import json
 from pathlib import Path
 from datetime import datetime
+import smtplib
+from email.message import EmailMessage
 
 from flask import (
     Flask, render_template, request, redirect, url_for,
@@ -366,9 +368,35 @@ def admin_new_product():
     return render_template("admin/new_product.html")
 
 
-@app.route("/ayuda")
-def ayuda():
-    return render_template("ayuda.html")
+@app.route("/contacto")
+def contacto():
+    return render_template("contacto.html", now=datetime.now())
+
+@app.route("/consultar-pedido", methods=["POST"])
+def consultar_pedido():
+    email = request.form.get("email")
+    pedido = request.form.get("pedido")
+    # Configura tu email y contraseña (usa variables de entorno en producción)
+    remitente = "tu_email@gmail.com"
+    password = "tu_contraseña"
+    destinatario = email
+    asunto = "Consulta de pedido"
+    mensaje = f"Hola, recibimos tu consulta sobre el pedido #{pedido}. Pronto te contactaremos con la información."
+
+    msg = EmailMessage()
+    msg.set_content(mensaje)
+    msg["Subject"] = asunto
+    msg["From"] = remitente
+    msg["To"] = destinatario
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(remitente, password)
+            smtp.send_message(msg)
+        flash("Consulta enviada correctamente. Revisa tu correo.", "success")
+    except Exception as e:
+        flash(f"Error al enviar el correo: {e}", "error")
+    return redirect(url_for("contacto"))
 
 # ------------------------------
 # Main
