@@ -29,7 +29,11 @@
               <div class="swiper-slide">
                 <div class="producto-card">
                   <a href="{{ url_for('producto_detalle', product_id=producto.id) }}">
-                    <img src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" class="producto-img">
+                    {% if producto.supplier and producto.image %}
+                      <img src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" class="producto-img">
+                    {% else %}
+                      <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="producto-img">
+                    {% endif %}
                     <h3>{{ producto.name }}</h3>
                   </a>
                   <p>${{ producto.price_display() }}</p>

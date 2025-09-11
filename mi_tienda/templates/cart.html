@@ -31,7 +31,11 @@
             {% for item in items %}
             <tr id="row-{{ item.product.id }}">
               <td>
-                <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
+                {% if item.product.supplier and item.product.image %}
+                  <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img" width="120">
+                {% else %}
+                  <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="cart-img" width="120">
+                {% endif %}
                 {{ item.product.name }}
               </td>
               <td>${{ "%.2f"|format(item.product.price_cents / 100) }}</td>

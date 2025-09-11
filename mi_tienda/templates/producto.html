@@ -17,7 +17,11 @@
   <main>
     <section class="producto-detalle">
       <div class="producto-imagen">
-        <img src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" tabindex="0">
+        {% if producto.supplier and producto.image %}
+          <img src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}" tabindex="0">
+        {% else %}
+          <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" tabindex="0">
+        {% endif %}
       </div>
       <div class="producto-info">
         <h1>{{ producto.name }}</h1>
@@ -80,7 +84,11 @@
   <!-- Modal para imagen ampliada -->
   <div id="modal-img" class="modal-img" style="display:none;" aria-modal="true" role="dialog">
     <span class="close-modal" id="close-modal" tabindex="0" aria-label="Cerrar imagen ampliada">&times;</span>
-    <img id="modal-product-img" src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}">
+    {% if producto.supplier and producto.image %}
+      <img id="modal-product-img" src="{{ url_for('static', filename='img/' ~ producto.supplier ~ '/' ~ producto.image) }}" alt="{{ producto.name }}">
+    {% else %}
+      <img id="modal-product-img" src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen">
+    {% endif %}
   </div>
   <footer class="main-footer">
     <div class="footer-content">
