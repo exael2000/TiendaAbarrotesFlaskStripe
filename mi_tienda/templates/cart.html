@@ -15,63 +15,174 @@
     </nav>
   </header>
   <main>
-  {% if items %}
-    <form id="cart-form" action="{{ url_for('route_update_cart') }}" method="POST">
-      <div class="cart-list">
+    {% if items %}
+      <!-- Tabla para escritorio -->
+      <form action="{{ url_for('route_update_cart') }}" method="POST" id="cart-form">
+        <table class="cart-table" id="cart-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+            <tr id="row-{{ item.product.id }}">
+              <td>
+                {% if item.product.supplier and item.product.image %}
+                  <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
+                {% else %}
+                  <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="cart-img">
+                {% endif %}
+                <div>{{ item.product.name }}</div>
+              </td>
+              <td>${{ "%.2f"|format(item.product.price_cents / 100) }}</td>
+              <td>
+                <label for="qty-{{ item.product.id }}" class="sr-only">Cantidad de {{ item.product.name }}</label>
+                <input type="number"
+                       id="qty-{{ item.product.id }}"
+                       name="quantity[{{ item.product.id }}]"
+                       value="{{ item.quantity }}"
+                       min="1"
+                       max="{{ item.product.stock }}"
+                       class="cart-qty">
+                <button type="submit"
+                        name="update"
+                        value="{{ item.product.id }}"
+                        class="update-btn">Actualizar</button>
+              </td>
+              <td id="subtotal-{{ item.product.id }}">${{ "%.2f"|format(item.subtotal / 100) }}</td>
+              <td>
+                <button type="submit"
+                        name="remove"
+                        value="{{ item.product.id }}"
+                        class="remove-btn">Eliminar</button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+
+      <!-- Tarjetas para móvil -->
+      <div class="cart-list" id="cart-list">
         {% for item in items %}
-        <div class="cart-item">
-          <div class="cart-row">
-            <span class="cart-label">Producto:</span>
-            <span class="cart-value">
-              {% if item.product.supplier and item.product.image %}
-                <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img" width="60">
-              {% else %}
-                <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="cart-img" width="60">
-              {% endif %}
-              {{ item.product.name }}
-            </span>
+        <div class="cart-item" id="row-mobile-{{ item.product.id }}">
+          <div class="cart-item-img">
+            {% if item.product.supplier and item.product.image %}
+              <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}">
+            {% else %}
+              <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen">
+            {% endif %}
           </div>
-          <div class="cart-row">
-            <span class="cart-label">Precio:</span>
-            <span class="cart-value">${{ "%.2f"|format(item.product.price_cents / 100) }}</span>
-          </div>
-          <div class="cart-row">
-            <span class="cart-label">Cantidad:</span>
-            <span class="cart-value">
-              <label for="qty-{{ item.product.id }}">Cantidad de {{ item.product.name }}:</label>
-              <input type="number" id="qty-{{ item.product.id }}" name="quantity[{{ item.product.id }}]" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="cart-qty" data-product-id="{{ item.product.id }}">
-            </span>
-          </div>
-          <div class="cart-row">
-            <span class="cart-label">Subtotal:</span>
-            <span class="cart-value" id="subtotal-{{ item.product.id }}">${{ "%.2f"|format(item.subtotal / 100) }}</span>
-          </div>
-          <div class="cart-row">
-            <span class="cart-label">Eliminar:</span>
-            <span class="cart-value">
-              <button type="button" class="remove-btn" data-product-id="{{ item.product.id }}" title="Eliminar producto">Eliminar</button>
-            </span>
+          <div class="cart-item-info">
+            <div class="cart-item-title">{{ item.product.name }}</div>
+            <div class="cart-item-price">Precio: ${{ "%.2f"|format(item.product.price_cents / 100) }}</div>
+            <div class="cart-item-qty">
+              <label for="qty-mobile-{{ item.product.id }}">Cantidad:</label>
+              <input type="number"
+                     id="qty-mobile-{{ item.product.id }}"
+                     value="{{ item.quantity }}"
+                     min="1"
+                     max="{{ item.product.stock }}"
+                     class="cart-qty"
+                     data-product-id="{{ item.product.id }}">
+            </div>
+            <div class="cart-item-subtotal" id="subtotal-mobile-{{ item.product.id }}">Subtotal: ${{ "%.2f"|format(item.subtotal / 100) }}</div>
+            <button type="button"
+                    class="remove-btn"
+                    data-product-id="{{ item.product.id }}">Eliminar</button>
           </div>
         </div>
         {% endfor %}
       </div>
+
       <div class="cart-total">
-        <strong>Total: ${{ "%.2f"|format(total / 100) }}</strong>
+        <strong id="cart-total-value">Total: ${{ "%.2f"|format(total / 100) }}</strong>
       </div>
       <div class="cart-actions">
         <a href="{{ url_for('index') }}" class="btn">Seguir comprando</a>
+        <form action="{{ url_for('create_checkout_session') }}" method="POST" style="display:inline;">
+          <button type="submit" class="btn checkout-btn">Pagar con Stripe</button>
+        </form>
       </div>
-    </form>
-    <form action="{{ url_for('create_checkout_session') }}" method="POST" style="text-align:right; margin-top:1rem;">
-      <button type="submit" class="btn checkout-btn">Pagar con Stripe</button>
-    </form>
-  {% else %}
-    <p class="empty-cart">Tu carrito está vacío.</p>
-    <a href="{{ url_for('index') }}" class="btn">Ver productos</a>
-  {% endif %}
-</main>
+    {% else %}
+      <p class="empty-cart">Tu carrito está vacío.</p>
+      <a href="{{ url_for('index') }}" class="btn">Ver productos</a>
+    {% endif %}
+  </main>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="footer-logo">
+      <div>
+        <p>&copy; {{ now.year }} Tienda Abarrotes. Todos los derechos reservados.</p>
+        <p>
+          Este sitio es un proyecto educativo inspirado en tiendas oficiales como 
+          <a href="https://www.bimbo.com.mx/" target="_blank" rel="noopener">Bimbo</a>, 
+          <a href="https://www.gamesa.com.mx/" target="_blank" rel="noopener">Gamesa</a> y 
+          <a href="https://www.sabritas.com.mx/" target="_blank" rel="noopener">Sabritas</a>.
+        </p>
+        <p>
+          Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
+          <a href="{{ url_for('contacto') }}">Contacto</a>
+        </p>
+      </div>
+    </div>
+  </footer>
   <script>
-document.querySelectorAll('.cart-qty').forEach(function(input) {
+function toggleCartView() {
+  const table = document.getElementById('cart-table');
+  const list = document.getElementById('cart-list');
+  if (window.innerWidth <= 700) {
+    if (table) table.style.display = 'none';
+    if (list) list.style.display = 'block';
+  } else {
+    if (table) table.style.display = 'table';
+    if (list) list.style.display = 'none';
+  }
+}
+window.addEventListener('resize', toggleCartView);
+window.addEventListener('DOMContentLoaded', toggleCartView);
+
+function isMobile() {
+  return window.innerWidth <= 700;
+}
+
+// Eliminar en móvil
+document.querySelectorAll('#cart-list .remove-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const productId = this.dataset.productId;
+    fetch("{{ url_for('route_update_cart') }}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: JSON.stringify({ product_id: productId, remove: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById(`row-mobile-${productId}`).remove();
+        document.getElementById('cart-total-value').textContent = `Total: $${data.total}`;
+        if (data.total == "0.00") {
+          document.getElementById('cart-list').style.display = "none";
+          document.querySelector('.cart-total').style.display = "none";
+          document.querySelector('.cart-actions').style.display = "none";
+          document.querySelector('.empty-cart').style.display = "block";
+        }
+      } else {
+        alert(data.message || "Error al eliminar el producto.");
+      }
+    });
+  });
+});
+
+// Actualizar cantidad en móvil
+document.querySelectorAll('#cart-list .cart-qty').forEach(function(input) {
   input.addEventListener('change', function() {
     const productId = this.dataset.productId;
     const quantity = this.value;
@@ -86,8 +197,8 @@ document.querySelectorAll('.cart-qty').forEach(function(input) {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        document.querySelector(`#subtotal-${productId}`).textContent = `$${data.subtotal}`;
-        document.querySelector('.cart-total strong').textContent = `Total: $${data.total}`;
+        document.getElementById(`subtotal-mobile-${productId}`).textContent = `Subtotal: $${data.subtotal}`;
+        document.getElementById('cart-total-value').textContent = `Total: $${data.total}`;
       } else {
         alert(data.message || "Error al actualizar el carrito.");
       }
@@ -95,53 +206,32 @@ document.querySelectorAll('.cart-qty').forEach(function(input) {
   });
 });
 
-document.querySelectorAll('.remove-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    const productId = this.dataset.productId;
-    fetch("{{ url_for('route_update_cart') }}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      },
-      body: JSON.stringify({ product_id: productId, remove: true })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById(`row-${productId}`).remove();
-        document.querySelector('.cart-total strong').textContent = `Total: $${data.total}`;
-        // Si el carrito está vacío, muestra el mensaje
-        if (data.total == "0.00") {
-          document.querySelector('.cart-table').style.display = "none";
-          document.querySelector('.cart-total').style.display = "none";
-          document.querySelector('.cart-actions').style.display = "none";
-          document.querySelector('.empty-cart').style.display = "block";
+// Actualizar cantidad en escritorio (tabla)
+document.querySelectorAll('#cart-table .cart-qty').forEach(function(input) {
+  input.addEventListener('change', function() {
+    if (!isMobile()) {
+      const productId = this.id.replace('qty-', '');
+      const quantity = this.value;
+      fetch("{{ url_for('route_update_cart') }}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ product_id: productId, quantity: quantity })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById(`subtotal-${productId}`).textContent = `$${data.subtotal}`;
+          document.getElementById('cart-total-value').textContent = `Total: $${data.total}`;
+        } else {
+          alert(data.message || "Error al actualizar el carrito.");
         }
-      } else {
-        alert(data.message || "Error al eliminar el producto.");
-      }
-    });
+      });
+    }
   });
 });
 </script>
-<footer class="main-footer">
-  <div class="footer-content">
-    <img src="{{ url_for('static', filename='img/banner.jpg') }}" alt="Tienda Abarrotes" class="footer-logo">
-    <div>
-      <p>&copy; {{ now.year }} Tienda Abarrotes. Todos los derechos reservados.</p>
-      <p>
-        Este sitio es un proyecto educativo inspirado en tiendas oficiales como 
-        <a href="https://www.bimbo.com.mx/" target="_blank" rel="noopener">Bimbo</a>, 
-        <a href="https://www.gamesa.com.mx/" target="_blank" rel="noopener">Gamesa</a> y 
-        <a href="https://www.sabritas.com.mx/" target="_blank" rel="noopener">Sabritas</a>.
-      </p>
-      <p>
-        Contacto: <a href="mailto:info@mitienda.com">info@mitienda.com</a> | 
-        <a href="{{ url_for('contacto') }}">Contacto</a>
-      </p>
-    </div>
-  </div>
-</footer>
 </body>
 </html>
