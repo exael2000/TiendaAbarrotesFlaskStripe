@@ -13,6 +13,9 @@
       <a href="{{ url_for('index') }}">Inicio</a>
       <a href="{{ url_for('contacto') }}">Contacto</a>
     </nav>
+    <div class="user-auth-box">
+      <button type="button" class="user-auth-btn" id="join-btn">Join</button>
+    </div>
   </header>
   <main>
     {% if items %}
@@ -132,9 +135,6 @@
       </div>
     </div>
   </footer>
-  <div class="user-auth-box">
-    <button type="button" class="user-auth-btn" id="join-btn">Join</button>
-  </div>
   <!-- Modal de login -->
   <div id="login-modal" class="modal" style="display:none;">
     <div class="modal-content">

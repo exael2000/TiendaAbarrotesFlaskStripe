@@ -27,12 +27,14 @@ body {
 }
 
 header {
+  position: relative;
   background: var(--verde);
   color: var(--blanco);
   padding: 1.2rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 70px; /* Opcional: asegura altura mínima */
 }
 
 header h1 {
@@ -41,10 +43,15 @@ header h1 {
   font-weight: 600;
 }
 
+nav {
+  margin-right: 8rem; /* Ajusta este valor según lo que necesites */
+}
+
 nav a {
   color: var(--blanco);
   text-decoration: none;
   margin-left: 1.5rem;
+  margin-right: 0.5rem; /* añade esto para separar más */
   font-size: 1.1rem;
   background: var(--gris);
   padding: 0.5rem 1rem;
@@ -173,6 +180,31 @@ input[type="number"], .cart-qty {
   transform: scale(1.07);
 }
 
+/* Nueva clase para botones de navegación */
+.nav-btn {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.5em 1.3em;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  margin-top: 0.7em;
+  margin-bottom: 0.2em;
+  width: 100%;
+  display: block;
+}
+
+.nav-btn:hover, .nav-btn:focus {
+  background: #145a32;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(39,174,96,0.13);
+  outline: none;
+}
+
 /* Pie de página */
 .main-footer {
   background: var(--gris);
@@ -217,7 +249,7 @@ input[type="number"], .cart-qty {
 .user-auth-box {
   position: absolute;
   top: 1.2rem;
-  right: 2rem;
+  right: 2rem; /* Regresa a 2rem para que quede bien pegado al borde */
   z-index: 10;
   display: flex;
   align-items: center;
@@ -399,7 +431,18 @@ input[type="number"], .cart-qty {
 @media (max-width: 700px) {
   .user-auth-box {
     top: 0.7rem;
-    right: 0.7rem;
+    right: 1.2rem; /* antes: 0.7rem, ahora un poco más separado del borde */
+  }
+  .user-auth-box {
+    margin-top: 0.5rem;
+    margin-right: 0;
+    justify-content: flex-end;
+  }
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+    padding: 1.2rem 1rem;
   }
   .user-auth-btn, .user-auth-name {
     font-size: 0.98rem;
