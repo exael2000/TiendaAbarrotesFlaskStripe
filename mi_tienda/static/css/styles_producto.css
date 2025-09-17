@@ -541,14 +541,45 @@ nav a:hover {
 
 @media (max-width: 600px) {
   .producto-detalle {
-    width: 98vw !important;
-    max-width: 98vw !important;
+    width: 96vw !important;
+    max-width: 380px !important;
     min-width: 0 !important;
     margin: 0 auto !important;
-    padding: 0.7rem 0.5rem !important;
-    border-radius: 10px !important;
+    padding: 0.8rem 0.4rem !important;
+    border-radius: 12px !important;
     box-sizing: border-box !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
+  }
+  .add-to-cart-form {
+    flex-direction: column !important;
+    gap: 0.7rem !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+  .add-to-cart-form button,
+  .add-to-cart-form input[type="number"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    font-size: 1.08rem !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .producto-tabs {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+  .tab-btn {
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    text-align: left !important;
   }
 }
