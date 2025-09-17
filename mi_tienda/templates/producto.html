@@ -146,16 +146,6 @@
         });
       }
     });
-
-    function ajustarProductoDetalle() {
-      const cont = document.querySelector('.producto-detalle');
-      if (!cont) return;
-      let ancho = Math.max(window.innerWidth * 0.5, 120); // 50vw mínimo 120px
-      if (ancho > 200) ancho = 200; // máximo 200px
-      cont.style.width = ancho + 'px';
-    }
-    window.addEventListener('resize', ajustarProductoDetalle);
-    window.addEventListener('DOMContentLoaded', ajustarProductoDetalle);
   </script>
 </body>
 </html>
