@@ -32,12 +32,14 @@
             {% for item in items %}
             <tr id="row-{{ item.product.id }}">
               <td>
-                {% if item.product.supplier and item.product.image %}
-                  <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
-                {% else %}
-                  <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="cart-img">
-                {% endif %}
-                <div>{{ item.product.name }}</div>
+                <a href="{{ url_for('producto_detalle', product_id=item.product.id) }}" class="cart-product-link">
+                  {% if item.product.supplier and item.product.image %}
+                    <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-img">
+                  {% else %}
+                    <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen" class="cart-img">
+                  {% endif %}
+                  <div class="cart-product-name-bg">{{ item.product.name }}</div>
+                </a>
               </td>
               <td>${{ "%.2f"|format(item.product.price_cents / 100) }}</td>
               <td>
@@ -49,10 +51,6 @@
                        min="1"
                        max="{{ item.product.stock }}"
                        class="cart-qty">
-                <button type="submit"
-                        name="update"
-                        value="{{ item.product.id }}"
-                        class="update-btn">Actualizar</button>
               </td>
               <td id="subtotal-{{ item.product.id }}">${{ "%.2f"|format(item.subtotal / 100) }}</td>
               <td>
@@ -71,15 +69,17 @@
       <div class="cart-list" id="cart-list">
         {% for item in items %}
         <div class="cart-item" id="row-mobile-{{ item.product.id }}">
-          <div class="cart-item-img">
-            {% if item.product.supplier and item.product.image %}
-              <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}">
-            {% else %}
-              <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen">
-            {% endif %}
-          </div>
+          <a href="{{ url_for('producto_detalle', product_id=item.product.id) }}" class="cart-product-link cart-product-link-mobile">
+            <span class="cart-item-img">
+              {% if item.product.supplier and item.product.image %}
+                <img src="{{ url_for('static', filename='img/' ~ item.product.supplier ~ '/' ~ item.product.image) }}" alt="{{ item.product.name }}">
+              {% else %}
+                <img src="{{ url_for('static', filename='img/no_image.jpg') }}" alt="Sin imagen">
+              {% endif %}
+            </span>
+            <span class="cart-product-name-bg">{{ item.product.name }}</span>
+          </a>
           <div class="cart-item-info">
-            <div class="cart-item-title">{{ item.product.name }}</div>
             <div class="cart-item-price">Precio: ${{ "%.2f"|format(item.product.price_cents / 100) }}</div>
             <div class="cart-item-qty">
               <label for="qty-mobile-{{ item.product.id }}">Cantidad:</label>

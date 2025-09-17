@@ -1,9 +1,26 @@
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #fdf6ec; /* crema claro */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  color: #222;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--crema, #fdf6ec);
+  color: var(--gris, #222);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.main-footer {
+  flex-shrink: 0;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Header y navegación */
@@ -342,36 +359,123 @@ h2 {
 }
 
 @media (max-width: 600px) {
-  .banner-img {
-    height: 100px;
+  /* Banner y navegación */
+  .banner-container {
+    padding: 0 !important;
   }
   .main-nav {
-    flex-direction: column;
-    gap: 0.5rem;
-    bottom: 8px;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    position: static !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    margin-top: 0.5rem !important;
   }
-  .producto-card {
-    width: 90vw;
-    min-width: 70vw;
-    max-width: 100vw;
+  .nav-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    text-align: center !important;
+    font-size: 1rem !important;
+    padding: 0.6rem 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Carrusel y tarjetas */
+  .swiper {
+    width: 100vw !important;
+    padding-bottom: 1.2rem !important;
+    margin: 0 auto !important;
+  }
+  .swiper-wrapper {
+    padding: 0.3rem 0 !important;
   }
   .swiper-slide {
-    min-width: 80vw !important;
+    min-width: 85vw !important;
     max-width: 100vw !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  .footer-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .producto-card {
+    width: 92vw !important;
+    max-width: 200px !important;
+    min-width: 120px !important;
+    margin: 0 auto !important;
+    padding: 0.7rem 0.3rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px #eafaf1 !important;
+    background: #fff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    transition: width 0.2s !important;
   }
-  .footer-logo {
-    margin-bottom: 1rem;
-    margin-right: 0;
-    width: 60px;
-    height: 60px;
+  .producto-img {
+    width: 90% !important;
+    max-width: 90px !important;
+    height: auto !important;
+    margin: 0 auto 0.5rem auto !important;
+    display: block !important;
+    border-radius: 8px !important;
+  }
+  .producto-card h3 {
+    font-size: 1rem !important;
+    margin: 0.2rem 0 0.1rem 0 !important;
+    text-align: center !important;
+  }
+  .producto-card p {
+    font-size: 0.98rem !important;
+    margin: 0.1rem 0 !important;
+    text-align: center !important;
+  }
+  .add-to-cart-form {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.3rem !important;
+    align-items: stretch !important;
+  }
+  .add-to-cart-form input[type="number"],
+  .add-to-cart-form button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.98rem !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+  .producto-card {
+    width: 75vw !important;
+    max-width: 340px !important;
+    min-width: 160px !important;
+    margin: 0 auto !important;
+    padding: 1rem 0.5rem !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 8px #eafaf1 !important;
+    background: #fff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.7rem !important;
+    transition: width 0.2s !important;
+  }
+  .producto-img {
+    width: 90% !important;
+    max-width: 120px !important;
+    height: auto !important;
+    margin: 0 auto 0.5rem auto !important;
+    display: block !important;
+    border-radius: 10px !important;
   }
 }
-
 /* Footer */
 .main-footer {
   background: #222;
@@ -390,13 +494,18 @@ h2 {
   flex-wrap: wrap;
 }
 
+/* Footer logo responsivo y legible en móvil */
 .footer-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+  width: 140px;
+  max-width: 40vw;
+  min-width: 90px;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  background: var(--blanco, #fff);
   border-radius: 10px;
-  margin-right: 1.5rem;
-  background: #fff;
   box-shadow: 0 2px 8px rgba(39,174,96,0.10);
 }
 
@@ -415,5 +524,34 @@ h2 {
   .footer-logo {
     width: 40px;
     height: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-logo {
+    width: 38vw !important;
+    max-width: 180px !important;
+    min-width: 90px !important;
+    height: auto !important;
+    margin-bottom: 1rem !important;
+    margin-right: 0 !important;
+    background: var(--blanco);
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .footer-content {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  .footer-content > div {
+    width: 100% !important;
+    max-width: 100vw !important;
+    text-align: center !important;
   }
 }
