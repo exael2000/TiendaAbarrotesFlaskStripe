@@ -264,6 +264,207 @@ h2 {
   align-items: stretch;
 }
 
+/* Modal login */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  overflow: auto;
+  background: rgba(0,0,0,0.35);
+}
+.modal-content {
+  background: #fff;
+  margin: 8% auto;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  border-radius: 12px;
+  max-width: 350px;
+  box-shadow: 0 8px 32px rgba(39,174,96,0.18);
+  position: relative;
+  text-align: center;
+}
+.close-modal {
+  position: absolute;
+  right: 1.2rem;
+  top: 1.2rem;
+  font-size: 1.7rem;
+  color: #aaa;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.close-modal:hover {
+  color: #e74c3c;
+}
+#login-form label {
+  display: block;
+  margin: 1rem 0 0.3rem 0;
+  text-align: left;
+  font-weight: 500;
+}
+#login-form input[type="text"],
+#login-form input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #27ae60;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+#login-form button.nav-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Nueva clase para el rol de usuario */
+.user-role {
+  margin-top: 0.5rem;
+  background: #eafaf1;
+  color: #145a32;
+  padding: 0.4em 1em;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.05em;
+  display: inline-block;
+}
+
+/* Estilos para el área de autenticación de usuario */
+.user-auth-box {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.user-auth-btn, .user-auth-name {
+  background: #fff;
+  color: #27ae60;
+  border: 1px solid #27ae60;
+  border-radius: 7px;
+  padding: 0.35em 1.1em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.08);
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  min-width: 0;
+}
+
+.user-auth-name {
+  background: #eafaf1;
+  color: #145a32;
+  border: none;
+  cursor: pointer;
+  padding: 0.35em 1.1em;
+  border-radius: 7px;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 0;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+}
+
+.user-auth-name:hover,
+.user-auth-name.active {
+  background: #27ae60;
+  color: #fff;
+}
+
+.user-auth-menu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #27ae60;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(39,174,96,0.10);
+  min-width: 120px;
+  z-index: 100;
+  text-align: left;
+  padding: 0.3em 0;
+}
+
+.user-auth-menu.show {
+  display: block;
+}
+
+.user-auth-menu button {
+  background: none;
+  border: none;
+  color: #145a32;
+  font-size: 1rem;
+  padding: 0.6em 1.2em;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.user-auth-menu button:hover {
+  background: #eafaf1;
+}
+
+/* Animación de bienvenida y despedida */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  overflow: auto;
+  background: rgba(0,0,0,0.35);
+}
+.welcome-content {
+  background: #fff;
+  margin: 12% auto;
+  padding: 2.2rem 2.5rem 1.7rem 2.5rem;
+  border-radius: 16px;
+  max-width: 340px;
+  box-shadow: 0 8px 32px rgba(39,174,96,0.18);
+  position: relative;
+  text-align: center;
+  animation: welcomeFadeIn 0.7s;
+}
+@keyframes welcomeFadeIn {
+  from { opacity: 0; transform: scale(0.8);}
+  to { opacity: 1; transform: scale(1);}
+}
+.welcome-circle {
+  margin: 0 auto 1.2rem auto;
+  width: 60px;
+  height: 60px;
+  animation: popIn 0.5s;
+}
+@keyframes popIn {
+  0% { transform: scale(0.2);}
+  80% { transform: scale(1.1);}
+  100% { transform: scale(1);}
+}
+.welcome-circle-green svg circle {
+  fill: #27ae60;
+}
+.welcome-circle-red svg circle {
+  fill: #e74c3c;
+}
+.welcome-text {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.welcome-text-green {
+  color: #27ae60;
+}
+.welcome-text-red {
+  color: #e74c3c;
+}
+
 /* Responsive para pantallas pequeñas */
 @media (max-width: 900px) {
   main, .main-content {
@@ -476,6 +677,7 @@ h2 {
     border-radius: 10px !important;
   }
 }
+
 /* Footer */
 .main-footer {
   background: #222;
