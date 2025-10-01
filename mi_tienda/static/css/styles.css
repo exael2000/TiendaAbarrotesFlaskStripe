@@ -709,12 +709,11 @@ h2 {
     max-width: 100vw !important;
     width: 100vw !important;
     min-height: 0 !important;
-    max-height: calc(100vh - 220px) !important; /* Ajusta según el tamaño de tu header+footer */
-    overflow-y: auto !important;
     margin: 0 !important;
     padding: 0.2rem 0.1rem !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    /* Elimina max-height y overflow-y aquí */
   }
   section {
     margin-bottom: 1rem !important;
